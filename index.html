@@ -1,0 +1,1008 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Bloc with StreamBuilder | Research Presentation (Executive Edition)</title>
+  <link rel="preconnect" href="https://fonts.googleapis.com">
+  <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+  <link href="https://fonts.googleapis.com/css2?family=Fira+Code:wght@400;500;600&family=Kantumruy+Pro:wght@400;500;600;700&family=Outfit:wght@300;400;500;600;700;800&family=Plus+Jakarta+Sans:wght@400;500;600;700;800&display=swap" rel="stylesheet">
+  <link rel="stylesheet" href="style.css">
+  <!-- Three.js 3D Library for Real Interactive 3D Animations -->
+  <script src="https://cdnjs.cloudflare.com/ajax/libs/three.js/r128/three.min.js"></script>
+</head>
+<body>
+  <!-- Ambient Particle Canvas -->
+  <canvas id="bgCanvas"></canvas>
+
+  <!-- Interactive Laser Pointer Dot -->
+  <div id="laserPointer"></div>
+
+  <!-- Header Bar -->
+  <header class="presentation-header">
+    <div class="header-left">
+      <div class="duc-badge">
+        <span class="duc-logo">DUC</span>
+        <div class="duc-info">
+          <span class="duc-name khmer-font">សាកលវិទ្យាល័យឌីជីថលកម្ពុជា</span>
+          <span class="duc-sub">Digital University of Cambodia • Mobile App Framework II</span>
+        </div>
+      </div>
+    </div>
+    <div class="header-center">
+      <span class="lesson-tag">Lesson 6: State Management (Bloc)</span>
+      <span class="research-tag khmer-font">កិច្ចការស្រាវជ្រាវ : Bloc with StreamBuilder</span>
+    </div>
+    <div class="header-right">
+      <button id="soundToggle" class="icon-btn active-tool" title="Sound Effects (Mute / Unmute)">🔊</button>
+      <button id="laserToggle" class="icon-btn" title="Laser Pointer Mode (Key: L)">🔴</button>
+      <button id="printBtn" class="icon-btn" title="Print / Export to PDF (Key: P)">🖨️</button>
+      <button id="themeToggle" class="icon-btn" title="Toggle Theme (Key: T)">🌓</button>
+      <button id="overviewToggle" class="icon-btn" title="Slide Overview (Key: O)">⊞</button>
+      <button id="fullscreenToggle" class="icon-btn" title="Toggle Fullscreen (Key: F)">⛶</button>
+    </div>
+  </header>
+
+  <!-- Main Slide Container -->
+  <main class="presentation-viewport">
+    <div class="slides-wrapper" id="slidesWrapper">
+
+      <!-- ============================================================
+           SLIDE 1: TITLE SLIDE (Executive Split & Crisp Radii)
+           ============================================================ -->
+      <section class="slide active" data-slide="1">
+        <div class="slide-content">
+          <div class="hero-split-grid">
+            <div class="hero-left-content">
+              <div class="university-pill">
+                <span class="pill-badge">RESEARCH ASSIGNMENT</span>
+                <span class="pill-text khmer-font">សាកលវិទ្យាល័យឌីជីថលកម្ពុជា • DUC</span>
+              </div>
+
+              <h1 class="hero-title">
+                <span class="gradient-text">BLoC with StreamBuilder</span>
+                <span class="khmer-hero-subtitle khmer-font">ស្វែងយល់ស៊ីជម្រៅអំពីការគ្រប់គ្រង State ដោយប្រើ Pure Dart Streams</span>
+              </h1>
+
+              <p class="hero-desc">
+                An in-depth research presentation on architectural design, reactive streams, asynchronous data flow, and Flutter's native <code class="inline-code">StreamBuilder</code> widget.
+                <span class="khmer-desc">បទបង្ហាញស្រាវជ្រាវស្តីពីស្ថាបត្យកម្មកម្មវិធី ការបញ្ជូនទិន្នន័យអសមកាលតាម Reactive Streams និងការប្រើប្រាស់ StreamBuilder របស់ Flutter។</span>
+              </p>
+
+              <div class="title-meta-grid">
+                <div class="meta-card">
+                  <span class="meta-icon">📚</span>
+                  <div>
+                    <div class="meta-label">Subject / មុខវិជ្ជា</div>
+                    <div class="meta-val">Mobile App Framework II</div>
+                    <span class="khmer-sub">Flutter App Development</span>
+                  </div>
+                </div>
+                <div class="meta-card">
+                  <span class="meta-icon">👨‍🏫</span>
+                  <div>
+                    <div class="meta-label">Lecturer / សាស្ត្រាចារ្យ</div>
+                    <div class="meta-val khmer-font">លោកគ្រូ គ តុលា</div>
+                    <span class="khmer-sub">Teacher Tolah (DUC)</span>
+                  </div>
+                </div>
+              </div>
+
+              <div class="start-hint">
+                <span>Press <kbd>→</kbd> or <kbd>Space</kbd> • <kbd>L</kbd> Laser • <kbd>N</kbd> Notes • <kbd>P</kbd> Print PDF</span>
+              </div>
+            </div>
+
+            <!-- Cute Mascot 3D Title Image in Clean Figure Card -->
+            <div class="figure-card">
+              <div class="figure-img-wrap">
+                <img src="assets/cute_title_mascot.jpg" alt="Dash and Robot presenting Flutter BLoC and StreamBuilder">
+              </div>
+              <div class="figure-caption">
+                ✨ Flutter Dash &amp; Robot presenting BLoC with StreamBuilder
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================================================
+           SLIDE 2: THE RESEARCH QUESTION (With Google I/O 2018 Image)
+           ============================================================ -->
+      <section class="slide" data-slide="2">
+        <div class="slide-content">
+          <div class="slide-header">
+            <div class="slide-badge">01 • THE RESEARCH QUESTION | សំណួរស្រាវជ្រាវ</div>
+            <h2 class="slide-title">
+              Why "Bloc with StreamBuilder"?
+              <span class="khmer-sub">ហេតុអ្វីបានជាមានការប្រើប្រាស់ BLoC ជាមួយ StreamBuilder?</span>
+            </h2>
+            <p class="slide-subtitle">
+              Understanding the origin and foundation of the BLoC pattern in Flutter
+              <span class="khmer-desc">ស្វែងយល់ពីប្រវត្តិដើម និងមូលដ្ឋានគ្រឹះពិតប្រាកដនៃ BLoC Pattern ក្នុង Flutter</span>
+            </p>
+          </div>
+
+          <div class="grid-2-col">
+            <div class="info-block">
+              <div class="card-tag primary">HISTORICAL CONTEXT | ប្រវត្តិដើម</div>
+              <h3>
+                BLoC Was Born From Pure Streams
+                <span class="khmer-sub" style="font-size: 0.85em;">BLoC កកើតឡើងចេញពី Pure Dart Streams</span>
+              </h3>
+              <p>
+                Before third-party packages like <code class="inline-code">flutter_bloc</code> existed, Google engineers (Paolo Soares & Cong Hui at Google I/O 2018) created BLoC using standard Dart language features:
+                <span class="khmer-desc">មុនពេលមាន package ជំនួយពីក្រៅ វិស្វករ Google បានបង្កើត BLoC ដោយពឹងផ្អែកលើលក្ខណៈពិសេសរបស់ Dart សុទ្ធសាធ៖</span>
+              </p>
+              <ul class="styled-list">
+                <li>
+                  <strong>Pure Dart:</strong> No external libraries needed; relies solely on <code class="inline-code">dart:async</code>.
+                  <span class="khmer-bullet">Dart សុទ្ធ ដោយពុំចាំបាច់ដំឡើង Package ក្រៅឡើយ។</span>
+                </li>
+                <li>
+                  <strong>Sink & Stream:</strong> Inputs go through <em>Sinks</em>, outputs emit through <em>Streams</em>.
+                  <span class="khmer-bullet">ទិន្នន័យចូលតាម Sink (Input) ហើយបញ្ចេញលទ្ធផលតាម Stream (Output)។</span>
+                </li>
+                <li>
+                  <strong>Native Flutter Widget:</strong> Flutter provides <code class="inline-code">StreamBuilder</code> to listen and rebuild UI.
+                  <span class="khmer-bullet">StreamBuilder ជា Widget ស្រាប់របស់ Flutter ក្នុងការស្តាប់ទិន្នន័យ និង Rebuild UI ដោយស្វ័យប្រវត្តិ។</span>
+                </li>
+              </ul>
+            </div>
+
+            <!-- Cute Google IO 2018 Stage Image -->
+            <div class="figure-card">
+              <div class="figure-img-wrap">
+                <img src="assets/cute_google_io_origin.jpg" alt="Dash presenting Reactive Streams at Google IO 2018">
+              </div>
+              <div class="figure-caption">
+                🎤 Google I/O 2018: Paolo Soares introduces BLoC pattern using pure Streams
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================================================
+           SLIDE 3: ARCHITECTURE DIAGRAM & CUTE MASCOT PIPELINE
+           ============================================================ -->
+      <section class="slide" data-slide="3">
+        <div class="slide-content">
+          <div class="slide-header">
+            <div class="slide-badge">02 • ARCHITECTURAL BLUEPRINT | ដ្យាក្រាមស្ថាបត្យកម្ម</div>
+            <h2 class="slide-title">
+              BLoC with StreamBuilder Architecture
+              <span class="khmer-sub">ស្ថាបត្យកម្ម និងលំហូរទិន្នន័យនៃ BLoC ជាមួយ StreamBuilder</span>
+            </h2>
+            <p class="slide-subtitle">
+              Unidirectional reactive data flow between UI, Sinks, Controllers, and StreamBuilder
+              <span class="khmer-desc">លំហូរទិន្នន័យវិលជុំមួយទិស (Unidirectional) រវាង UI, Sink, StreamController, និង StreamBuilder</span>
+            </p>
+          </div>
+
+          <div class="architecture-layout">
+            <div class="figure-card banner-figure">
+              <div class="figure-img-wrap">
+                <img src="assets/cute_bloc_streambuilder.jpg" alt="Cute Flutter BLoC and StreamBuilder Mascot Illustration" style="max-height: 380px;">
+              </div>
+              <div class="figure-caption">
+                ✨ <strong>Cute Mascot Flow:</strong> Event (Button) ➔ SINK ➔ BLoC (Logic) ➔ STREAM ➔ StreamBuilder (UI Rebuild)
+                <span class="khmer-font" style="margin-left: 8px; color: #7dd3fc;">(ព្រឹត្តិការណ៍ ➔ Sink ➔ BLoC ➔ Stream ➔ StreamBuilder ធ្វើបច្ចុប្បន្នភាព UI)</span>
+              </div>
+            </div>
+
+            <div class="steps-flow-horizontal">
+              <div class="flow-step">
+                <div class="step-num">1</div>
+                <div class="step-name">User Action</div>
+                <span class="khmer-sub">ចុចប៊ូតុង UI</span>
+                <p>User clicks button or triggers event</p>
+              </div>
+              <div class="flow-arrow">➔</div>
+              <div class="flow-step">
+                <div class="step-num">2</div>
+                <div class="step-name">Sink (Input)</div>
+                <span class="khmer-sub">ច្រកបញ្ចូលទិន្នន័យ</span>
+                <p><code class="inline-code">_bloc.sink.add(...)</code></p>
+              </div>
+              <div class="flow-arrow">➔</div>
+              <div class="flow-step highlight">
+                <div class="step-num">3</div>
+                <div class="step-name">StreamController</div>
+                <span class="khmer-sub">ដំណើរការ Logic</span>
+                <p>Calculates business logic & state</p>
+              </div>
+              <div class="flow-arrow">➔</div>
+              <div class="flow-step">
+                <div class="step-num">4</div>
+                <div class="step-name">Stream (Output)</div>
+                <span class="khmer-sub">បំពង់បញ្ចេញ State</span>
+                <p>Emits async state value</p>
+              </div>
+              <div class="flow-arrow">➔</div>
+              <div class="flow-step highlight">
+                <div class="step-num">5</div>
+                <div class="step-name">StreamBuilder</div>
+                <span class="khmer-sub">គូរ UI ឡើងវិញ</span>
+                <p>Receives snapshot & re-renders</p>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================================================
+           SLIDE 4: 4 PILLARS (With 4 Crystal Pedestals Image)
+           ============================================================ -->
+      <section class="slide" data-slide="4">
+        <div class="slide-content">
+          <div class="slide-header">
+            <div class="slide-badge">03 • CORE BUILDING BLOCKS | សសរស្តម្ភគ្រឹះទាំង ៤</div>
+            <h2 class="slide-title">
+              The 4 Key Pillars in Dart & Flutter
+              <span class="khmer-sub">សសរស្តម្ភគន្លឹះទាំង ៤ ក្នុង Dart និង Flutter សម្រាប់ BLoC</span>
+            </h2>
+            <p class="slide-subtitle">
+              The foundational classes that make BLoC with StreamBuilder work seamlessly
+              <span class="khmer-desc">Class មូលដ្ឋានទាំង ៤ ដែលធ្វើឱ្យ BLoC ដំណើរការជាមួយ StreamBuilder យ៉ាងរលូន</span>
+            </p>
+          </div>
+
+          <div class="grid-2-col">
+            <div class="grid-4-cards">
+              <div class="pillar-card">
+                <div class="pillar-header">
+                  <span class="pillar-badge">DART ENGINE</span>
+                  <span class="pillar-icon">🎛️</span>
+                </div>
+                <h3>StreamController&lt;T&gt;</h3>
+                <p class="pillar-role">The Engine & Coordinator</p>
+                <p class="pillar-desc">
+                  Manages both Sink & Stream.
+                  <span class="khmer-desc">ម៉ាស៊ីនគ្រប់គ្រងការបញ្ជូនទិន្នន័យ។</span>
+                </p>
+                <div class="mini-code"><code>_ctrl = StreamController&lt;int&gt;.broadcast();</code></div>
+              </div>
+
+              <div class="pillar-card">
+                <div class="pillar-header">
+                  <span class="pillar-badge">INPUT</span>
+                  <span class="pillar-icon">📥</span>
+                </div>
+                <h3>Sink&lt;T&gt;</h3>
+                <p class="pillar-role">The Entry Port (Input)</p>
+                <p class="pillar-desc">
+                  Receives events via <code class="inline-code">.add()</code>.
+                  <span class="khmer-desc">ច្រកទ្វារទទួលទិន្នន័យចូលពី UI។</span>
+                </p>
+                <div class="mini-code"><code>Sink&lt;Event&gt; get eventSink =&gt; _ctrl.sink;</code></div>
+              </div>
+
+              <div class="pillar-card">
+                <div class="pillar-header">
+                  <span class="pillar-badge">OUTPUT</span>
+                  <span class="pillar-icon">📤</span>
+                </div>
+                <h3>Stream&lt;T&gt;</h3>
+                <p class="pillar-role">The Data Pipe (Output)</p>
+                <p class="pillar-desc">
+                  Emits async state data.
+                  <span class="khmer-desc">បំពង់បង្ហូរទិន្នន័យអសមកាលចេញ។</span>
+                </p>
+                <div class="mini-code"><code>Stream&lt;int&gt; get stream =&gt; _ctrl.stream;</code></div>
+              </div>
+
+              <div class="pillar-card highlight-border">
+                <div class="pillar-header">
+                  <span class="pillar-badge highlight">WIDGET</span>
+                  <span class="pillar-icon">🏗️</span>
+                </div>
+                <h3>StreamBuilder&lt;T&gt;</h3>
+                <p class="pillar-role">The Reactive Consumer</p>
+                <p class="pillar-desc">
+                  Rebuilds UI on new snapshots.
+                  <span class="khmer-desc">Widget គូរ UI តាម Stream។</span>
+                </p>
+                <div class="mini-code"><code>StreamBuilder(stream: ..., builder: ...)</code></div>
+              </div>
+            </div>
+
+            <!-- Cute 4 Crystal Pillars Image -->
+            <div class="figure-card">
+              <div class="figure-img-wrap">
+                <img src="assets/cute_4_pillars.jpg" alt="4 glowing crystal pillars in fantasy tech garden">
+              </div>
+              <div class="figure-caption">
+                💎 The 4 Pillars: StreamController, Sink, Stream &amp; StreamBuilder
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================================================
+           SLIDE 5: STEP 1 - PURE DART BLOC (With Dash Coding Image)
+           ============================================================ -->
+      <section class="slide" data-slide="5">
+        <div class="slide-content">
+          <div class="slide-header">
+            <div class="slide-badge">04 • CODE IMPLEMENTATION | ការអនុវត្តកូដ</div>
+            <h2 class="slide-title">
+              Step 1: Writing the Pure Dart BLoC
+              <span class="khmer-sub">ជំហានទី ១៖ ការបង្កើត BLoC ដោយប្រើប្រាស់ Dart សុទ្ធ</span>
+            </h2>
+            <p class="slide-subtitle">
+              Zero external dependencies! Only standard <code class="inline-code">dart:async</code> is needed.
+              <span class="khmer-desc">ពុំបាច់ប្រើ Package ក្រៅឡើយ! ប្រើតែបណ្ណាល័យស្តង់ដារ <code class="inline-code">dart:async</code> របស់ Dart ប៉ុណ្ណោះ។</span>
+            </p>
+          </div>
+
+          <div class="code-with-explanations">
+            <div class="terminal-card">
+              <div class="terminal-bar">
+                <div class="dots">
+                  <span class="dot red"></span>
+                  <span class="dot yellow"></span>
+                  <span class="dot green"></span>
+                </div>
+                <span class="filename">counter_bloc.dart</span>
+                <span class="file-lang">Dart (Pure Streams)</span>
+              </div>
+              <pre class="code-block"><code><span class="kw">import</span> <span class="str">'dart:async'</span>;
+
+<span class="kw">enum</span> <span class="type">CounterEvent</span> { increment, decrement, reset }
+
+<span class="kw">class</span> <span class="type">CounterBloc</span> {
+  <span class="type">int</span> _counter = <span class="num">0</span>;
+
+  <span class="cm">// 1. State Output Controller (បញ្ចេញ State ទៅ UI)</span>
+  <span class="kw">final</span> _stateController = <span class="type">StreamController</span>&lt;<span class="type">int</span>&gt;.broadcast();
+  <span class="type">Stream</span>&lt;<span class="type">int</span>&gt; <span class="kw">get</span> counterStream =&gt; _stateController.stream;
+
+  <span class="cm">// 2. Event Input Controller (ទទួល Event ពី UI)</span>
+  <span class="kw">final</span> _eventController = <span class="type">StreamController</span>&lt;<span class="type">CounterEvent</span>&gt;();
+  <span class="type">Sink</span>&lt;<span class="type">CounterEvent</span>&gt; <span class="kw">get</span> eventSink =&gt; _eventController.sink;
+
+  <span class="type">CounterBloc</span>() {
+    _eventController.stream.listen(_handleEvent);
+  }
+
+  <span class="kw">void</span> _handleEvent(<span class="type">CounterEvent</span> event) {
+    <span class="kw">if</span> (event == <span class="type">CounterEvent</span>.increment) _counter++;
+    <span class="kw">else</span> <span class="kw">if</span> (event == <span class="type">CounterEvent</span>.decrement) _counter--;
+    <span class="kw">else</span> <span class="kw">if</span> (event == <span class="type">CounterEvent</span>.reset) _counter = <span class="num">0</span>;
+    _stateController.sink.add(_counter);
+  }
+
+  <span class="cm">// 3. Prevent Memory Leaks! (ត្រូវបិទ Stream ជានិច្ច)</span>
+  <span class="kw">void</span> dispose() {
+    _stateController.close();
+    _eventController.close();
+  }
+}</code></pre>
+            </div>
+
+            <!-- Visual Column with Cute Dash Coding Image -->
+            <div style="display: flex; flex-direction: column; gap: 12px; justify-content: center;">
+              <div class="figure-card">
+                <div class="figure-img-wrap">
+                  <img src="assets/cute_dash_coding.jpg" alt="Dash coding pure Dart with multiple monitors">
+                </div>
+                <div class="figure-caption">
+                  💻 Dash coding CounterBloc in pure Dart without libraries
+                </div>
+              </div>
+
+              <div class="annotation-item danger">
+                <div class="anno-num">!</div>
+                <div class="anno-content">
+                  <h4>Mandatory dispose()</h4>
+                  <p>
+                    Controllers stay in memory until closed. Always call <code class="inline-code">close()</code>!
+                    <span class="khmer-desc">ត្រូវតែបិទ StreamController ជានិច្ចក្នុង dispose() ដើម្បីការពារ Memory Leak!</span>
+                  </p>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================================================
+           SLIDE 6: STEP 2 - STREAMBUILDER WITH CUTE LEGO UI
+           ============================================================ -->
+      <section class="slide" data-slide="6">
+        <div class="slide-content">
+          <div class="slide-header">
+            <div class="slide-badge">05 • UI INTEGRATION | ការភ្ជាប់ជាមួយផ្ទាំង UI</div>
+            <h2 class="slide-title">
+              Step 2: Consuming BLoC with StreamBuilder
+              <span class="khmer-sub">ជំហានទី ២៖ ការប្រើប្រាស់ StreamBuilder ដើម្បីបង្ហាញទិន្នន័យ</span>
+            </h2>
+            <p class="slide-subtitle">
+              How Flutter connects widget rendering directly to stream emissions
+              <span class="khmer-desc">របៀបដែល Flutter ភ្ជាប់ការគូរ Widget ដោយផ្ទាល់ទៅកាន់ទិន្នន័យដែលចេញពី Stream</span>
+            </p>
+          </div>
+
+          <div class="code-with-explanations">
+            <div class="terminal-card">
+              <div class="terminal-bar">
+                <div class="dots">
+                  <span class="dot red"></span>
+                  <span class="dot yellow"></span>
+                  <span class="dot green"></span>
+                </div>
+                <span class="filename">counter_screen.dart</span>
+                <span class="file-lang">Flutter Widget</span>
+              </div>
+              <pre class="code-block"><code><span class="cm">// In CounterScreenState:</span>
+<span class="kw">late final</span> <span class="type">CounterBloc</span> _bloc;
+
+<span class="ann">@override</span>
+<span class="kw">void</span> initState() {
+  <span class="kw">super</span>.initState();
+  _bloc = <span class="type">CounterBloc</span>(); <span class="cm">// Create instance once</span>
+}
+
+<span class="ann">@override</span>
+<span class="kw">void</span> dispose() {
+  _bloc.dispose(); <span class="cm">// Clean up streams</span>
+  <span class="kw">super</span>.dispose();
+}
+
+<span class="ann">@override</span>
+<span class="kw">Widget</span> build(<span class="type">BuildContext</span> context) {
+  <span class="kw">return</span> <span class="type">Scaffold</span>(
+    body: <span class="type">Center</span>(
+      child: <span class="kw">StreamBuilder</span>&lt;<span class="type">int</span>&gt;(
+        stream: _bloc.counterStream,
+        initialData: <span class="num">0</span>,
+        builder: (<span class="type">BuildContext</span> context, <span class="type">AsyncSnapshot</span>&lt;<span class="type">int</span>&gt; snapshot) {
+          <span class="kw">if</span> (snapshot.hasError) return <span class="type">Text</span>(<span class="str">'Error'</span>);
+          <span class="kw">return</span> <span class="type">Text</span>(
+            <span class="str">'${snapshot.data}'</span>,
+            style: <span class="kw">const</span> <span class="type">TextStyle</span>(fontSize: <span class="num">64</span>),
+          );
+        },
+      ),
+    ),
+    floatingActionButton: <span class="type">FloatingActionButton</span>(
+      onPressed: () =&gt; _bloc.eventSink.add(<span class="type">CounterEvent</span>.increment),
+      child: <span class="kw">const</span> <span class="type">Icon</span>(<span class="type">Icons</span>.add),
+    ),
+  );
+}</code></pre>
+            </div>
+
+            <!-- Cute Lego UI Illustration -->
+            <div class="figure-card" style="align-self: center;">
+              <div class="figure-img-wrap">
+                <img src="assets/cute_streambuilder_lego.jpg" alt="Dash assembling UI lego blocks with StreamBuilder">
+              </div>
+              <div class="figure-caption">
+                🧱 StreamBuilder assembling UI widgets from stream snapshot lego blocks!
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================================================
+           SLIDE 7: ASYNCSNAPSHOT & 3 CONNECTION ROBOTS
+           ============================================================ -->
+      <section class="slide" data-slide="7">
+        <div class="slide-content">
+          <div class="slide-header">
+            <div class="slide-badge">06 • ASYNC LIFECYCLE | វដ្តជីវិតនៃ STREAM</div>
+            <h2 class="slide-title">
+              Mastering AsyncSnapshot & ConnectionState
+              <span class="khmer-sub">ការយល់ដឹងស៊ីជម្រៅអំពី AsyncSnapshot និង ConnectionState</span>
+            </h2>
+            <p class="slide-subtitle">
+              StreamBuilder inspects the lifecycle states of the asynchronous stream
+              <span class="khmer-desc">StreamBuilder ត្រួតពិនិត្យស្ថានភាពវដ្តជីវិតនៃ Stream តាមរយៈ ConnectionState ទាំង ៣</span>
+            </p>
+          </div>
+
+          <div class="grid-2-col">
+            <div class="connection-states-stack">
+              <div class="conn-card">
+                <div class="conn-header waiting">
+                  <span class="status-indicator"></span>
+                  <code>ConnectionState.waiting</code>
+                </div>
+                <h4>Waiting for First Event <span class="khmer-sub">កំពុងរង់ចាំទិន្នន័យដំបូង</span></h4>
+                <p>Stream connected, no item arrived yet. Show a spinner!</p>
+              </div>
+
+              <div class="conn-card highlight">
+                <div class="conn-header active">
+                  <span class="status-indicator"></span>
+                  <code>ConnectionState.active</code>
+                </div>
+                <h4>Actively Emitting Data <span class="khmer-sub">កំពុងបញ្ជូនទិន្នន័យយ៉ាងសកម្ម</span></h4>
+                <p>Stream has emitted values and remains open for emissions.</p>
+              </div>
+
+              <div class="conn-card">
+                <div class="conn-header done">
+                  <span class="status-indicator"></span>
+                  <code>ConnectionState.done</code>
+                </div>
+                <h4>Stream Closed / Finished <span class="khmer-sub">Stream ត្រូវបានបិទបញ្ចប់</span></h4>
+                <p>Stream was closed by <code class="inline-code">close()</code>.</p>
+              </div>
+
+              <div class="conn-card" style="border-color: rgba(244, 63, 94, 0.4); background: rgba(244, 63, 94, 0.06); padding: 8px 12px;">
+                <div class="conn-header" style="color: #f43f5e; margin-bottom: 2px;">
+                  <span class="status-indicator" style="background: #f43f5e; box-shadow: 0 0 8px #f43f5e;"></span>
+                  <code>snapshot.hasError &amp; Defensive Safety</code>
+                </div>
+                <h4 style="font-size: 12.5px; margin-bottom: 2px;">Error Guarding <span class="khmer-sub">ការការពារកុំឱ្យ Crash UI</span></h4>
+                <p style="font-size: 11px; margin: 0;">Always check <code class="inline-code">if (snapshot.hasError)</code> before reading <code class="inline-code">snapshot.data</code>.</p>
+              </div>
+            </div>
+
+            <!-- Cute 3 ConnectionState Robots Image -->
+            <div class="figure-card">
+              <div class="figure-img-wrap">
+                <img src="assets/cute_connection_states.jpg" alt="3 cute robots representing Waiting, Active, and Done">
+              </div>
+              <div class="figure-caption">
+                🤖 3 Robots: WAITING (Loading), ACTIVE (Streaming), DONE (Flag)
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================================================
+           SLIDE 8: INTERACTIVE SIMULATOR + THREE.JS 3D ANIMATION
+           ============================================================ -->
+      <section class="slide" data-slide="8">
+        <div class="slide-content">
+          <div class="slide-header" style="margin-bottom: 10px;">
+            <div class="slide-badge">07 • INTERACTIVE 3D ANIMATION &amp; DEMO | ការបង្ហាញសាកល្បង 3D</div>
+            <h2 class="slide-title">
+              Interactive 3D Stream Reactor &amp; Simulation
+              <span class="khmer-sub">ការក្លែងធ្វើចលនាទិន្នន័យអន្តរកម្មបែប 3D (ចុចបង្វិល 3D ដោយសេរី!)</span>
+            </h2>
+            <p class="slide-subtitle">
+              Click &amp; drag the 3D Hologram Reactor below, and test real event flow on the Flutter phone!
+            </p>
+          </div>
+
+          <div class="simulator-container">
+            <!-- Simulated Mobile App Device Screen -->
+            <div class="sim-phone">
+              <div class="phone-notch"></div>
+              <div class="phone-screen">
+                <div class="appbar">
+                  <span>Flutter Counter App</span>
+                  <span class="appbar-badge">v3.0 3D PRO</span>
+                </div>
+                <div class="phone-body">
+                  <div class="streambuilder-boundary" id="simBoundary">
+                    <span class="boundary-label">&lt;StreamBuilder&lt;int&gt;&gt;</span>
+                    <div class="label-muted">Current Snapshot Data</div>
+                    <div class="counter-display" id="simCount">0</div>
+                    <div class="snapshot-status" id="simStatus">ConnectionState.active</div>
+                  </div>
+
+                  <div class="phone-actions">
+                    <button class="sim-btn dec-btn" id="simDecBtn" title="Dispatch Decrement Event">
+                      <span>−</span>
+                    </button>
+                    <button class="sim-btn reset-btn" id="simResetBtn" title="Dispatch Reset Event">
+                      <span>↺</span>
+                    </button>
+                    <button class="sim-btn inc-btn" id="simIncBtn" title="Dispatch Increment Event">
+                      <span>+</span>
+                    </button>
+                  </div>
+                  <div class="phone-hint khmer-font">សូមចុចប៊ូតុងខាងលើដើម្បីសាកល្បង!</div>
+                </div>
+              </div>
+            </div>
+
+            <!-- Architectural Visualization Pipeline with THREE.JS 3D CANVAS -->
+            <div class="pipeline-viz">
+              <div id="threeContainer">
+                <canvas id="threeCanvas"></canvas>
+                <div class="three-hint">🎮 Interactive 3D Reactor (Click &amp; Drag to Rotate 3D Cube)</div>
+              </div>
+
+              <!-- Step-by-Step Walkthrough Bar -->
+              <div class="step-controls-bar">
+                <span style="font-size: 10.5px; font-weight: 700; color: var(--accent-cyan);">WALKTHROUGH:</span>
+                <button class="step-btn" id="step1Btn">1. UI Event</button>
+                <button class="step-btn" id="step2Btn">2. Enter Sink</button>
+                <button class="step-btn" id="step3Btn">3. BLoC Logic</button>
+                <button class="step-btn" id="step4Btn">4. Stream Emit</button>
+                <button class="step-btn" id="step5Btn">5. UI Rebuild</button>
+              </div>
+
+              <div class="pipeline-nodes">
+                <div class="pipe-node" id="nodeUI">
+                  <div class="node-icon">👆</div>
+                  <div class="node-title">UI Widget</div>
+                  <div class="node-badge" id="eventBadge">idle</div>
+                </div>
+
+                <div class="pipe-wire wire-event" id="wireEvent">
+                  <span class="wire-label">sink.add()</span>
+                  <div class="packet" id="eventPacket"></div>
+                </div>
+
+                <div class="pipe-node" id="nodeSink">
+                  <div class="node-icon">📥</div>
+                  <div class="node-title">Event Sink</div>
+                </div>
+
+                <div class="pipe-wire wire-process" id="wireProcess">
+                  <span class="wire-label">listen()</span>
+                  <div class="packet" id="processPacket"></div>
+                </div>
+
+                <div class="pipe-node bloc-hub" id="nodeBloc">
+                  <div class="node-icon">⚙️</div>
+                  <div class="node-title">CounterBloc</div>
+                  <div class="bloc-state-display" id="blocInternalState">Internal: 0</div>
+                </div>
+
+                <div class="pipe-wire wire-state" id="wireState">
+                  <span class="wire-label">stream.add()</span>
+                  <div class="packet" id="statePacket"></div>
+                </div>
+
+                <div class="pipe-node" id="nodeStream">
+                  <div class="node-icon">🌊</div>
+                  <div class="node-title">counterStream</div>
+                </div>
+
+                <div class="pipe-wire wire-consumer" id="wireConsumer">
+                  <span class="wire-label">onData</span>
+                  <div class="packet" id="consumerPacket"></div>
+                </div>
+
+                <div class="pipe-node" id="nodeBuilder">
+                  <div class="node-icon">🏗️</div>
+                  <div class="node-title">StreamBuilder</div>
+                  <div class="node-badge highlight" id="renderBadge">Rebuilt: 0</div>
+                </div>
+              </div>
+
+              <div class="event-log-console">
+                <div class="console-header">
+                  <span>Stream Event Logger | កំណត់ត្រាព្រឹត្តិការណ៍ Stream</span>
+                  <button id="clearLogs" class="clear-btn">Clear</button>
+                </div>
+                <div class="console-body" id="consoleLogs">
+                  <div class="log-line info">[INIT] 3D Reactive Engine ready. StreamController&lt;int&gt; open.</div>
+                </div>
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================================================
+           SLIDE 9: STREAMBUILDER VS BLOCBUILDER (With Stadium Image)
+           ============================================================ -->
+      <section class="slide" data-slide="9">
+        <div class="slide-content">
+          <div class="slide-header">
+            <div class="slide-badge">08 • COMPARATIVE ANALYSIS | ការប្រៀបធៀបលម្អិត</div>
+            <h2 class="slide-title">
+              StreamBuilder vs flutter_bloc (BlocBuilder)
+              <span class="khmer-sub">ការប្រៀបធៀបរវាង StreamBuilder និង BlocBuilder</span>
+            </h2>
+            <p class="slide-subtitle">
+              Comparing native Flutter streams against the opinionated flutter_bloc package
+              <span class="khmer-desc">ប្រៀបធៀបរវាង Stream ស្រាប់របស់ Flutter និង Package ជំនួយ flutter_bloc</span>
+            </p>
+          </div>
+
+          <div class="grid-2-col">
+            <div class="comparison-table-wrapper">
+              <table class="comparison-table">
+                <thead>
+                  <tr>
+                    <th>Feature Dimension</th>
+                    <th class="col-streambuilder">StreamBuilder (Native)</th>
+                    <th class="col-blocbuilder">BlocBuilder (flutter_bloc)</th>
+                  </tr>
+                </thead>
+                <tbody>
+                  <tr>
+                    <td><strong>Package Dependency</strong></td>
+                    <td><span class="badge success">0 Dependencies</span> Built-in</td>
+                    <td>Requires <code class="inline-code">flutter_bloc</code></td>
+                  </tr>
+                  <tr>
+                    <td><strong>Underlying Engine</strong></td>
+                    <td>Standard Dart <code class="inline-code">Stream&lt;T&gt;</code></td>
+                    <td>Abstracted <code class="inline-code">Bloc&lt;E, S&gt;</code></td>
+                  </tr>
+                  <tr>
+                    <td><strong>Disposal &amp; Memory</strong></td>
+                    <td><strong>Manual:</strong> must call <code class="inline-code">dispose()</code></td>
+                    <td><strong>Automatic</strong> via BlocProvider</td>
+                  </tr>
+                  <tr>
+                    <td><strong>Conditional Rebuilds</strong></td>
+                    <td>Rebuilds on every emission</td>
+                    <td>Has <code class="inline-code">buildWhen: (prev, curr)</code></td>
+                  </tr>
+                  <tr>
+                    <td><strong>Best Suited For</strong></td>
+                    <td>Lightweight apps, zero dependencies</td>
+                    <td>Enterprise multi-developer teams</td>
+                  </tr>
+                </tbody>
+              </table>
+            </div>
+
+            <!-- Cute Showdown Stadium Image -->
+            <div class="figure-card">
+              <div class="figure-img-wrap">
+                <img src="assets/cute_comparison_showdown.jpg" alt="Dash and Robot high-fiving in Flutter Arena">
+              </div>
+              <div class="figure-caption">
+                🏟️ Flutter Arena: StreamBuilder &amp; BlocBuilder high-fiving!
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================================================
+           SLIDE 10: PITFALLS & DASH VALVE DISPOSE IMAGE
+           ============================================================ -->
+      <section class="slide" data-slide="10">
+        <div class="slide-content">
+          <div class="slide-header">
+            <div class="slide-badge">09 • CRITICAL GOTCHAS | គោលការណ៍សំខាន់ៗ</div>
+            <h2 class="slide-title">
+              Best Practices &amp; Memory Leak Prevention
+              <span class="khmer-sub">គោលការណ៍ល្អៗ និងការការពារបញ្ហា Memory Leak</span>
+            </h2>
+            <p class="slide-subtitle">
+              Essential engineering rules every Flutter developer must follow with streams
+              <span class="khmer-desc">វិធានការវិស្វកម្មដ៏សំខាន់ដែល Developer គ្រប់រូបត្រូវគោរពតាមពេលប្រើ Stream</span>
+            </p>
+          </div>
+
+          <div class="grid-3-cards">
+            <div class="warning-card">
+              <div class="warn-badge danger">CRITICAL RULE 1</div>
+              <div class="warn-icon">🚫</div>
+              <h3>
+                Never Instantiate in <code class="inline-code">build()</code>
+                <span class="khmer-sub" style="color: #fca5a5;">កុំបង្កើត Instance ក្នុង build() ជាដាច់ខាត</span>
+              </h3>
+              <p>
+                Every rebuild creates a brand-new BLoC, leaking the old one!
+                <span class="khmer-desc">រាល់ពេល redraw វានឹងបង្កើត BLoC ថ្មីឥតឈប់ឈរ បណ្តាលឱ្យខូច Memory!</span>
+              </p>
+              <div class="fix-tip">
+                <strong>Solution:</strong> Instantiate once inside <code class="inline-code">initState()</code>.
+              </div>
+            </div>
+
+            <!-- Cute Dash Valve Close Image in clean figure card -->
+            <div class="figure-card" style="align-self: center;">
+              <div class="figure-img-wrap">
+                <img src="assets/cute_memory_leak_fix.jpg" alt="Dash closing the dispose valve to prevent leaks">
+              </div>
+              <div class="figure-caption">
+                🔒 Dash closing the Dispose valve: Memory Leak Prevented!
+              </div>
+            </div>
+
+            <div class="warning-card">
+              <div class="warn-badge tip">BEST PRACTICE 2</div>
+              <div class="warn-icon">📡</div>
+              <h3>
+                Use Broadcast Streams
+                <span class="khmer-sub">ប្រើ Broadcast Stream បើមាន Widget ច្រើន</span>
+              </h3>
+              <p>
+                Single stream allows only 1 listener. Multi-widgets throw bad state error!
+                <span class="khmer-desc">Stream ធម្មតាអនុញ្ញាតឱ្យស្តាប់បានតែ Widget មួយប៉ុណ្ណោះ។</span>
+              </p>
+              <div class="fix-tip">
+                <strong>Solution:</strong> Use <code class="inline-code">StreamController&lt;T&gt;.broadcast()</code>.
+              </div>
+            </div>
+          </div>
+
+          <div style="margin-top: 14px; background: rgba(56, 189, 248, 0.06); border: 1px solid rgba(56, 189, 248, 0.25); border-radius: var(--radius-md); padding: 10px 18px; display: flex; align-items: center; justify-content: space-between; gap: 14px;">
+            <div style="display: flex; align-items: center; gap: 12px;">
+              <span style="font-size: 22px;">🛡️</span>
+              <div>
+                <span style="font-size: 13px; font-weight: 700; color: var(--text-main);">
+                  Golden Rule: Always call <code class="inline-code">_controller.close()</code> inside State's <code class="inline-code">dispose()</code>!
+                </span>
+                <span class="khmer-font" style="display: block; font-size: 11.5px; color: var(--accent-cyan); font-weight: 500; margin-top: 2px;">
+                  ត្រូវតែបិទ Stream ជានិច្ចនៅពេល Screen ត្រូវបានបិទចេញ ដើម្បីកុំឱ្យ Leak Ram លើទូរស័ព្ទ។
+                </span>
+              </div>
+            </div>
+            <span class="lesson-tag" style="white-space: nowrap; font-size: 11px;">100% Zero Leaks</span>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================================================
+           SLIDE 11: SUMMARY & CUTE A+ TROPHY IMAGE
+           ============================================================ -->
+      <section class="slide" data-slide="11">
+        <div class="slide-content">
+          <div class="slide-header">
+            <div class="slide-badge">10 • SUMMARY | សេចក្តីសង្ខេប</div>
+            <h2 class="slide-title">
+              Research Summary: Key Takeaways
+              <span class="khmer-sub">សង្ខេបលទ្ធផលស្រាវជ្រាវ និងចំណុចគន្លឹះសំខាន់ៗ</span>
+            </h2>
+            <p class="slide-subtitle">
+              A comprehensive recap directly answering the teacher's research prompt
+              <span class="khmer-desc">សេចក្តីសង្ខេបឆ្លើយតបទៅនឹងកិច្ចការស្រាវជ្រាវរបស់លោកគ្រូក្នុងស្លាយទី ២០</span>
+            </p>
+          </div>
+
+          <div class="grid-2-col">
+            <div class="summary-grid">
+              <div class="summary-item">
+                <div class="sum-check">✓</div>
+                <div class="sum-text">
+                  <h4>Pure Dart Reactivity <span class="khmer-sub">ភាពបត់បែននៃ Dart សុទ្ធ</span></h4>
+                  <p>Reactive state management built using standard Dart streams without 3rd-party packages.</p>
+                </div>
+              </div>
+
+              <div class="summary-item">
+                <div class="sum-check">✓</div>
+                <div class="sum-text">
+                  <h4>Clear Separation of Concerns <span class="khmer-sub">ការបែងចែកកូដដាច់ដោយឡែក</span></h4>
+                  <p>UI renders snapshots &amp; sends events into Sink, completely decoupled from business logic.</p>
+                </div>
+              </div>
+
+              <div class="summary-item">
+                <div class="sum-check">✓</div>
+                <div class="sum-text">
+                  <h4>Targeted Scoped Rebuilds <span class="khmer-sub">Rebuild តែផ្នែកចាំបាច់ (-85% CPU/GPU)</span></h4>
+                  <p>StreamBuilder redraws strictly its wrapped sub-tree, maintaining steady 60/120 FPS performance.</p>
+                </div>
+              </div>
+
+              <div class="summary-item">
+                <div class="sum-check">✓</div>
+                <div class="sum-text">
+                  <h4>100% Isolated Unit Testing <span class="khmer-sub">ភាពងាយស្រួលក្នុងការធ្វើ Unit Test</span></h4>
+                  <p>Pure Dart BLoCs test effortlessly with standard <code class="inline-code">dart test</code> in milliseconds without Flutter UI mocks.</p>
+                </div>
+              </div>
+            </div>
+
+            <!-- Cute Dash A+ Trophy Image in clean figure card -->
+            <div class="figure-card">
+              <div class="figure-img-wrap">
+                <img src="assets/cute_summary_trophy.jpg" alt="Dash holding 1st Place A+ trophy and certificate">
+              </div>
+              <div class="figure-caption">
+                🏆 Grade A+ Research Complete: Congrats Dash &amp; Sparky!
+              </div>
+            </div>
+          </div>
+        </div>
+      </section>
+
+      <!-- ============================================================
+           SLIDE 12: CONCLUSION & CUTE CLASSROOM CELEBRATION
+           ============================================================ -->
+      <section class="slide" data-slide="12">
+        <div class="slide-content">
+          <div class="conclusion-grid">
+            <div class="figure-card">
+              <div class="figure-img-wrap">
+                <img src="assets/cute_thankyou_flutter.jpg" alt="Cute Flutter Dash and Robot saying Thank You">
+              </div>
+              <div class="figure-caption">
+                🎉 Classroom Celebration: Thank you for your attention!
+              </div>
+            </div>
+
+            <div class="conclusion-details">
+              <div class="conclusion-badge">PRESENTATION COMPLETE | បញ្ចប់បទបង្ហាញ</div>
+              <h2 class="conclusion-title">
+                Thanks for your attention!
+              </h2>
+              <div class="khmer-conclusion khmer-font">
+                អរគុណសម្រាប់ការយកចិត្តទុកដាក់ស្តាប់!
+              </div>
+
+              <div class="qa-box">
+                <span class="qa-icon">💬</span>
+                <div class="qa-text">
+                  <h3>
+                    Questions &amp; Answers
+                    <span class="khmer-sub">សំណួរ និងចម្លើយ</span>
+                  </h3>
+                  <p>
+                    Open for questions, feedback, and discussion from Lecturer and Classmates.
+                    <span class="khmer-desc">សូមគោរពអញ្ជើញលោកគ្រូ និងមិត្តរួមថ្នាក់សួរសំណួរ ឬផ្តល់មតិយោបល់។</span>
+                  </p>
+                </div>
+              </div>
+
+              <div class="credit-footer">
+                <div class="credit-school khmer-font">សាកលវិទ្យាល័យឌីជីថលកម្ពុជា (Digital University of Cambodia)</div>
+                <div class="credit-course">Subject: Mobile App Framework II • Lesson 6: State Management (Bloc)</div>
+                <div class="credit-teacher khmer-font">សាស្ត្រាចារ្យណែនាំ៖ លោកគ្រូ គ តុលា (Teacher Tolah)</div>
+              </div>
+
+              <button class="restart-btn" id="restartBtn">↺ Restart Presentation / ចាប់ផ្តើមឡើងវិញ</button>
+            </div>
+          </div>
+        </div>
+      </section>
+
+    </div>
+  </main>
+
+  <!-- Bottom Navigation & Controls -->
+  <footer class="presentation-footer">
+    <div class="footer-left">
+      <button id="prevBtn" class="nav-btn" title="Previous Slide (← / PageUp)">
+        <span>◀</span> Previous
+      </button>
+      <span class="slide-counter">
+        Slide <strong id="currentSlideNum">1</strong> of <strong id="totalSlidesNum">12</strong>
+      </span>
+      <button id="nextBtn" class="nav-btn primary" title="Next Slide (→ / Space / PageDown)">
+        Next <span>▶</span>
+      </button>
+    </div>
+
+    <!-- Slide progress bar -->
+    <div class="progress-container">
+      <div class="progress-bar" id="progressBar"></div>
+    </div>
+
+    <div class="footer-right">
+      <button id="autoPlayBtn" class="action-btn" title="Auto-advance slides">
+        ▶ Auto Play
+      </button>
+      <button id="notesToggleBtn" class="action-btn" title="Show Speaker Notes (Key: N)">
+        📝 Speaker Notes / កំណត់ត្រានិយាយ
+      </button>
+      <div class="keyboard-hints">
+        <kbd>←</kbd> <kbd>→</kbd> Move • <kbd>L</kbd> Laser • <kbd>P</kbd> Print PDF • <kbd>F</kbd> Fullscreen
+      </div>
+    </div>
+  </footer>
+
+  <!-- Slide Overview Drawer Modal -->
+  <div class="overview-drawer" id="overviewDrawer">
+    <div class="drawer-header">
+      <h3>Slide Navigation Index | មាតិកាស្លាយបទបង្ហាញ</h3>
+      <button id="closeDrawer" class="close-btn">✕</button>
+    </div>
+    <div class="drawer-grid" id="drawerGrid"></div>
+  </div>
+
+  <!-- Speaker Notes Modal -->
+  <div class="notes-modal" id="notesModal">
+    <div class="notes-header">
+      <span class="notes-title">🎙️ Speaker Notes (Slide <span id="notesSlideNum">1</span>)</span>
+      <button id="closeNotes" class="close-btn">✕</button>
+    </div>
+    <div class="notes-body" id="notesBody"></div>
+  </div>
+
+  <script src="script.js"></script>
+</body>
+</html>
